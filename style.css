@@ -1,0 +1,18 @@
+* {
+  background-color: rgb(155, 121, 74)
+}
+
+h1 {
+  font-family: "Do Hyeon", sans-serif;
+  color: maroon;
+}
+
+p {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color: darkblue;
+}
+
+ul li {
+  font-family: Arial;
+  color: purple;
+}
