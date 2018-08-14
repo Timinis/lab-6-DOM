@@ -17,7 +17,7 @@ const randomCookiesGenerator = locationObj => {
     locationObj.randomCookies.push(
       Math.floor(
         getRndInteger(locationObj.minCust, locationObj.maxCust) *
-          locationObj.avgCookies
+        locationObj.avgCookies
       )
     );
   }
@@ -28,26 +28,84 @@ const totalCookiesCalc = locationObj => {
   for (let i = 1; i < locationObj.randomCookies.length; i++) {
     sumOfTwo = sumOfNumber(sumOfTwo, locationObj.randomCookies[i]);
   }
-  return sumOfTwo;
+  locationObj.totalCookies = sumOfTwo;
 };
-//function for web rendering
-const webRender = locationObj => {
-  let salesH2El = document.getElementById(locationObj.h2id);
-  let salesUlEl = document.getElementById(locationObj.ulid);
-  salesH2El.textContent = locationObj.name;
-  for (let i = 0; i < locationObj.randomCookies.length; i++) {
-    let liEl = document.createElement('li');
-    liEl.textContent =
-      businessHour[i] + ': ' + locationObj.randomCookies[i] + ' cookies';
-    salesUlEl.appendChild(liEl);
+//
+
+//function for object creation
+const locationGenerator = (name, minCust, maxCust, avgCookies, randomCookies) => ({
+  name,
+  minCust,
+  maxCust,
+  avgCookies,
+  randomCookies,
+});
+
+//function  to render the table header
+const headRender = () => {
+  let locationTable = document.getElementById('locationTable');
+  let trEl = document.createElement('tr');
+  let thEl = document.createElement('th');
+  let thEl3 = document.createElement('th');
+  thEl.textContent = 'Location';
+  trEl.appendChild(thEl);
+  for (let i = 0; i < businessHour.length; i++) {
+    let thEl2 = document.createElement('th');
+    thEl2.textContent = businessHour[i];
+    trEl.appendChild(thEl2);
   }
-  let liElTotal = document.createElement('li');
-  liElTotal.textContent = 'Total Sales: ' + locationObj.totalCookies;
-  salesUlEl.appendChild(liElTotal);
+  thEl3.textContent = 'Total Cookies';
+  trEl.appendChild(thEl3);
+  locationTable.appendChild(trEl);
 };
+//function to render the table content
+const webRender = locationObj => {
+  let locationTable = document.getElementById('locationTable');
+  let trEl = document.createElement('tr');
+  let tdEl = document.createElement('td');
+  let tdEl3 = document.createElement('td');
+  tdEl.textContent = locationObj.name;
+  trEl.appendChild(tdEl);
+  for (let i = 0; i < locationObj.randomCookies.length; i++) {
+    let tdEl2 = document.createElement('td');
+    tdEl2.textContent = locationObj.randomCookies[i];
+    trEl.appendChild(tdEl2);
+  }
+  tdEl3.textContent = locationObj.totalCookies;
+  trEl.appendChild(tdEl3);
+  locationTable.appendChild(trEl);
+};
+
+//function to render the table footer
+const footRender = () => {
+  let locationTable = document.getElementById('locationTable');
+  let trEl = document.createElement('tr');
+  let tdEl = document.createElement('td');
+  tdEl.textContent = 'Total Per Hour';
+  trEl.appendChild(tdEl);
+  for (let h = 0; h < businessHour.length; h++) {
+    let tdEl2 = document.createElement('td');
+    let sumOfTwo = locationList[0].randomCookies[h];
+    for (let i = 1; i < locationList.length; i++) {
+      sumOfTwo = sumOfNumber(sumOfTwo, locationList[i].randomCookies[h]);
+    }
+    tdEl2.textContent = sumOfTwo;
+    trEl.appendChild(tdEl2);
+  }
+  let tdEl3 = document.createElement('td');
+  let sumOfTwo = locationList[0].totalCookies;
+  for (let i = 1; i < locationList.length; i++) {
+    sumOfTwo = locationList[i].totalCookies + sumOfTwo;
+  }
+  tdEl3.textContent = sumOfTwo;
+  trEl.appendChild(tdEl3);
+  locationTable.appendChild(trEl);
+};
+
+let locationList = [];
 //hours into arrays
 let businessHour = [
-  ' 6am',
+  '6 am',
   '7 am',
   '8 am',
   '9 am',
@@ -64,67 +122,23 @@ let businessHour = [
   '8 pm'
 ];
 
-const pikeStreet = {
-  name: '1st and Pike',
-  h2id: '1stPike',
-  ulid: 'firstPike',
-  minCust: 23,
-  maxCust: 65,
-  avgCookies: 6.3,
-  randomCookies: []
-};
-randomCookiesGenerator(pikeStreet);
-pikeStreet.totalCookies = totalCookiesCalc(pikeStreet);
-webRender(pikeStreet);
 
-const seaTac = {
-  name: 'SeaTac Airport',
-  h2id: 'seaTac',
-  ulid: 'airport',
-  minCust: 3,
-  maxCust: 24,
-  avgCookies: 1.2,
-  randomCookies: []
-};
-randomCookiesGenerator(seaTac);
-seaTac.totalCookies = totalCookiesCalc(seaTac);
-webRender(seaTac);
+//creating object and pushing to all-Location array
+let pike = locationGenerator('1st and Pike', 23, 65, 6.3, []);
+locationList.push(pike);
+let seaTac = locationGenerator('SeaTac Airport', 3, 24, 1.2, []);
+locationList.push(seaTac);
+let seaCenter = locationGenerator('Seattle Center', 11, 38, 3.7, []);
+locationList.push(seaCenter);
+let capHill = locationGenerator('Capitol Hill', 20, 38, 2.3, []);
+locationList.push(capHill);
+let alki = locationGenerator('Alki', 2, 16, 4.6, []);
+locationList.push(alki);
 
-const seaCenter = {
-  name: 'Seattle Center',
-  h2id: 'seattleCenter',
-  ulid: 'center',
-  minCust: 11,
-  maxCust: 38,
-  avgCookies: 3.7,
-  randomCookies: []
-};
-randomCookiesGenerator(seaCenter);
-seaCenter.totalCookies = totalCookiesCalc(seaCenter);
-webRender(seaCenter);
-
-const capHill = {
-  name: 'Capitol Hill',
-  h2id: 'capHill',
-  ulid: 'hill',
-  minCust: 20,
-  maxCust: 38,
-  avgCookies: 2.3,
-  randomCookies: []
-};
-randomCookiesGenerator(capHill);
-capHill.totalCookies = totalCookiesCalc(capHill);
-webRender(capHill);
-
-const alki = {
-  name: 'Alki',
-  h2id: 'alki',
-  ulid: 'alkiBeach',
-  minCust: 2,
-  maxCust: 16,
-  avgCookies: 4.6,
-  randomCookies: []
-};
-randomCookiesGenerator(alki);
-alki.totalCookies = totalCookiesCalc(alki);
-webRender(alki);
+headRender();
+for (let i = 0; i < locationList.length; i++) {
+  randomCookiesGenerator(locationList[i]);
+  totalCookiesCalc(locationList[i]);
+  webRender(locationList[i]);
+}
+footRender();
