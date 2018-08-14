@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 //Small function
 
@@ -17,7 +17,7 @@ const randomCookiesGenerator = locationObj => {
     locationObj.randomCookies.push(
       Math.floor(
         getRndInteger(locationObj.minCust, locationObj.maxCust) *
-        locationObj.avgCookies
+          locationObj.avgCookies
       )
     );
   }
@@ -29,7 +29,6 @@ const totalCookiesCalc = locationObj => {
     sumOfTwo = sumOfNumber(sumOfTwo, locationObj.randomCookies[i]);
   }
   return sumOfTwo;
-  console.log(sumOfTwo);
 };
 //function for web rendering
 const webRender = locationObj => {
@@ -38,15 +37,32 @@ const webRender = locationObj => {
   salesH2El.textContent = locationObj.name;
   for (let i = 0; i < locationObj.randomCookies.length; i++) {
     let liEl = document.createElement('li');
-    liEl.textContent = businessHour[i] + ': ' + locationObj.randomCookies[i] + ' cookies';
+    liEl.textContent =
+      businessHour[i] + ': ' + locationObj.randomCookies[i] + ' cookies';
     salesUlEl.appendChild(liEl);
   }
   let liElTotal = document.createElement('li');
   liElTotal.textContent = 'Total Sales: ' + locationObj.totalCookies;
   salesUlEl.appendChild(liElTotal);
-}
+};
 //hours into arrays
-let businessHour = [' 6am', '7 am', '8 am', '9 am', '10 am', '11 am', '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm', '8 pm']
+let businessHour = [
+  ' 6am',
+  '7 am',
+  '8 am',
+  '9 am',
+  '10 am',
+  '11 am',
+  '12 pm',
+  '1 pm',
+  '2 pm',
+  '3 pm',
+  '4 pm',
+  '5 pm',
+  '6 pm',
+  '7 pm',
+  '8 pm'
+];
 
 const pikeStreet = {
   name: '1st and Pike',
@@ -69,7 +85,7 @@ const seaTac = {
   maxCust: 24,
   avgCookies: 1.2,
   randomCookies: []
-}
+};
 randomCookiesGenerator(seaTac);
 seaTac.totalCookies = totalCookiesCalc(seaTac);
 webRender(seaTac);
@@ -82,7 +98,7 @@ const seaCenter = {
   maxCust: 38,
   avgCookies: 3.7,
   randomCookies: []
-}
+};
 randomCookiesGenerator(seaCenter);
 seaCenter.totalCookies = totalCookiesCalc(seaCenter);
 webRender(seaCenter);
@@ -95,7 +111,7 @@ const capHill = {
   maxCust: 38,
   avgCookies: 2.3,
   randomCookies: []
-}
+};
 randomCookiesGenerator(capHill);
 capHill.totalCookies = totalCookiesCalc(capHill);
 webRender(capHill);
@@ -108,7 +124,7 @@ const alki = {
   maxCust: 16,
   avgCookies: 4.6,
   randomCookies: []
-}
+};
 randomCookiesGenerator(alki);
 alki.totalCookies = totalCookiesCalc(alki);
 webRender(alki);
