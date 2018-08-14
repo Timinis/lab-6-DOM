@@ -13,7 +13,7 @@ const sumOfNumber = (a, b) => {
 };
 //function for adding random cookies to array to the object
 const randomCookiesGenerator = locationObj => {
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < businessHour.length; i++) {
     locationObj.randomCookies.push(
       Math.floor(
         getRndInteger(locationObj.minCust, locationObj.maxCust) *
