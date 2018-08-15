@@ -1,5 +1,7 @@
 'use strict';
 
+const newLocationForm = document.getElementById('newLocationForm');
+
 //Utility Functions
 
 //Start with random number generator;
@@ -29,6 +31,31 @@ const totalCookiesCalc = locationObj => {
   return sumOfTwo;
 };
 
+//function to take in form data and output on the table
+
+const handleLocation = (event) => {
+  event.preventDefault();
+
+  if (!event.target.location.value || !event.target.minF.value || !event.target.maxF.value || !event.target.avgF.value) {
+    return alert('Fields cannot be empty');
+  }
+  locationList.push(locationGenerator(event.target.location.value,
+    parseInt(event.target.minF.value),
+    parseInt(event.target.maxF.value),
+    parseFloat(event.target.avgF.value), []));
+  let i = locationList.length - 1;
+  randomCookiesGenerator(locationList[i]);
+  locationList[i].totalCookies = totalCookiesCalc(locationList[i]);
+  webRender(locationList[i]);
+  event.target.location.value = null;
+  event.target.minF.value = null;
+  event.target.maxF.value = null;
+  event.target.avgF.value = null;
+  const element = document.getElementById('replacable');
+  element.parentNode.removeChild(element);
+  footRender();
+};
+
 //function  to render the table header
 const headRender = () => {
   const locationTable = document.getElementById('locationTable');
@@ -45,6 +72,7 @@ const headRender = () => {
   thEl3.textContent = 'Total Cookies';
   trEl.appendChild(thEl3);
   locationTable.appendChild(trEl);
+
 };
 //function to render the table content
 const webRender = locationObj => {
@@ -68,6 +96,7 @@ const webRender = locationObj => {
 const footRender = () => {
   const locationTable = document.getElementById('locationTable');
   const trEl = document.createElement('tr');
+  trEl.setAttribute('id', 'replacable');
   const tdEl = document.createElement('td');
   tdEl.textContent = 'Total Per Hour';
   trEl.appendChild(tdEl);
@@ -81,6 +110,7 @@ const footRender = () => {
     trEl.appendChild(tdEl2);
   }
   const tdEl3 = document.createElement('td');
+
   let sumOfTwo = 0;
   for (let i = 0; i < locationList.length; i++) {
     sumOfTwo = locationList[i].totalCookies + sumOfTwo;
@@ -130,7 +160,7 @@ const locationList = [
   locationGenerator('SeaTac Airport', 3, 24, 1.2, []),
   locationGenerator('Seattle Center', 11, 38, 3.7, []),
   locationGenerator('Capitol Hill', 20, 38, 2.3, []),
-  locationGenerator('Alki', 2, 16, 4.6, [])
+  locationGenerator('Alki', 2, 16, 4.6, []),
 ];
 
 //creating object and pushing to all-Location array
@@ -143,3 +173,4 @@ for (let i = 0; i < locationList.length; i++) {
   webRender(locationList[i]);
 }
 footRender();
+newLocationForm.addEventListener('submit', handleLocation, false);

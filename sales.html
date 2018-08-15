@@ -9,6 +9,21 @@
 <body>
   <h1>Sales Projection Tool</h1>
 
+  <form id="newLocationForm">
+    <fieldset>
+      <legend>New Location Tool</legend>
+      <label for="location">New Location:</label>
+      <input name="location" type="text" size="15" />
+      <label for="customers">Range of Customers: Min</label>
+      <input name="minF" type="number" size "15"/>
+      <label for="customers">Max</label>
+      <input name="maxF" type="number" size "15"/>
+      <label for="cookies">Average Cookies Per Customer</label>
+      <input name="avgF" type="number" step="any" size "15"/>
+
+      <button type="submit">Create Location</button>
+    </fieldset>
+  </form>
   <table id="locationTable"></table>
   <script src='js/app.js'></script>
 </body>
