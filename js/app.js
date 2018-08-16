@@ -5,7 +5,7 @@ const newLocationForm = document.getElementById('newLocationForm');
 //Utility Functions
 
 //Start with random number generator;
-const getRndInteger = (min, max) => {
+const getRandomInteger = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
@@ -18,7 +18,7 @@ const randomCookiesGenerator = ({
 }) => {
   for (let i = 0; i < businessHour.length; i++) {
     randomCookies.push(
-      Math.floor(getRndInteger(minCust, maxCust) * avgCookies)
+      Math.floor(getRandomInteger(minCust, maxCust) * avgCookies)
     );
   }
 };
@@ -47,13 +47,17 @@ const handleLocation = (event) => {
   randomCookiesGenerator(locationList[i]);
   locationList[i].totalCookies = totalCookiesCalc(locationList[i]);
   webRender(locationList[i]);
+  employeeRender(locationList[i]);
   event.target.location.value = null;
   event.target.minF.value = null;
   event.target.maxF.value = null;
   event.target.avgF.value = null;
   const element = document.getElementById('replacable');
+  const element2 = document.getElementById('replacable2');
   element.parentNode.removeChild(element);
+  element2.parentNode.removeChild(element2);
   footRender();
+  employeeFoot();
 };
 
 //function  to render the table header
@@ -74,6 +78,21 @@ const headRender = () => {
   locationTable.appendChild(trEl);
 
 };
+
+//function  to render the employee table header
+const employeeHead = () => {
+  const locationTable = document.getElementById('employeeTable');
+  const trEl = document.createElement('tr');
+  const thEl = document.createElement('th');
+  thEl.textContent = 'Location';
+  trEl.appendChild(thEl);
+  for (let i = 0; i < businessHour.length; i++) {
+    const thEl2 = document.createElement('th');
+    thEl2.textContent = businessHour[i];
+    trEl.appendChild(thEl2);
+  }
+  locationTable.appendChild(trEl);
+};
 //function to render the table content
 const webRender = locationObj => {
   const locationTable = document.getElementById('locationTable');
@@ -88,6 +107,23 @@ const webRender = locationObj => {
     trEl.appendChild(tdEl2);
   }
   tdEl3.textContent = locationObj.totalCookies;
+  trEl.appendChild(tdEl3);
+  locationTable.appendChild(trEl);
+};
+
+const employeeRender = locationObj => {
+  const locationTable = document.getElementById('employeeTable');
+  const trEl = document.createElement('tr');
+  const tdEl = document.createElement('td');
+  const tdEl3 = document.createElement('td');
+  tdEl.textContent = locationObj.name;
+  trEl.appendChild(tdEl);
+  for (let i = 0; i < locationObj.randomCookies.length; i++) {
+    const tdEl2 = document.createElement('td');
+    tdEl2.textContent = Math.floor(locationObj.randomCookies[i] / 40);
+    trEl.appendChild(tdEl2);
+  }
+
   trEl.appendChild(tdEl3);
   locationTable.appendChild(trEl);
 };
@@ -120,6 +156,25 @@ const footRender = () => {
   locationTable.appendChild(trEl);
 };
 
+const employeeFoot = () => {
+  const locationTable = document.getElementById('employeeTable');
+  const trEl = document.createElement('tr');
+  trEl.setAttribute('id', 'replacable2');
+  const tdEl = document.createElement('td');
+  tdEl.textContent = 'Total Per Hour';
+  trEl.appendChild(tdEl);
+  for (let h = 0; h < businessHour.length; h++) {
+    let tdEl2 = document.createElement('td');
+    let sumOfTwo = 0;
+    for (let i = 0; i < locationList.length; i++) {
+      sumOfTwo = sumOfTwo + Math.floor((locationList[i].randomCookies[h] / 40));
+    }
+    tdEl2.textContent = sumOfTwo;
+    trEl.appendChild(tdEl2);
+  }
+  locationTable.appendChild(trEl);
+};
+
 //hours into arrays
 const businessHour = [
   '6 am',
@@ -140,13 +195,7 @@ const businessHour = [
 ];
 
 //function for object creation
-const locationGenerator = (
-  name,
-  minCust,
-  maxCust,
-  avgCookies,
-  randomCookies
-) => ({
+const locationGenerator = (name, minCust, maxCust, avgCookies, randomCookies) => ({
   name,
   minCust,
   maxCust,
@@ -165,12 +214,15 @@ const locationList = [
 
 //creating object and pushing to all-Location array
 
-
 headRender();
+employeeHead();
+
 for (let i = 0; i < locationList.length; i++) {
   randomCookiesGenerator(locationList[i]);
   locationList[i].totalCookies = totalCookiesCalc(locationList[i]);
   webRender(locationList[i]);
+  employeeRender(locationList[i]);
 }
 footRender();
+employeeFoot();
 newLocationForm.addEventListener('submit', handleLocation, false);
