@@ -1,18 +1,85 @@
 * {
-  background-color: rgb(155, 121, 74)
+  background-color: rgb(233, 231, 212);
+  font-family: 'Pacifico', cursive;
 }
 
-h1 {
-  font-family: "Do Hyeon", sans-serif;
-  color: maroon;
+body {
+  display: grid;
 }
-
 p {
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  color: darkblue;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
 }
-
-ul li {
-  font-family: Arial;
-  color: purple;
+h1 {
+  font-family: 'Pacifico', cursive;
+  position: relative;
+  text-align: center;
+  font-size: 40px;
+}
+nav ul {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+  list-style: none;
+  margin-bottom: 40px;
+  background-color: teal;
+}
+nav li {
+  font-family: 'Pacifico', cursive;
+  font-size: 20px;
+  padding: 20px;
+  background-color: teal;
+  color: white;
+}
+a {
+  color: white;
+  background-color: teal;
+  text-decoration: none;
+}
+nav li:hover {
+  background-color: rgb(74, 177, 177);
+}
+a:hover {
+  background-color: rgb(74, 177, 177);
+}
+.home {
+  grid-column: 7;
+}
+.divider {
+  display: grid;
+  grid-template-columns: 27% auto;
+  grid-template-rows: 100px 300px 300px;
+}
+.location {
+  grid-column: 1;
+  grid-row: 2;
+}
+.content {
+  grid-column: 2;
+  grid-row: 1 / 4;
+}
+h3 {
+  font-family: 'Pacifico', cursive;
+  font-size: 30px;
+}
+.location li {
+  text-align: left;
+  list-style-type: none;
+  margin-top: 40px;
+  font-family: 'Pacifico', cursive;
+}
+.location ul {
+  padding-bottom: 80px;
+}
+.business-hour {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: 'Pacifico', cursive;
+  font-size: 20px;
+}
+.contact {
+  font-family: 'Pacifico', cursive;
+  font-size: 15px;
+  grid-column: 1;
+  grid-row: 3;
 }
